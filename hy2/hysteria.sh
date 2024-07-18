@@ -49,7 +49,7 @@ if [[ -z $(type -P curl) ]]; then
 fi
 
 realip(){
-    ip=$(curl -s6m8 ip.gs -k) || ip=$(curl -s4m8 ip.gs -k)
+    ip=$(curl -s4m8 ip.gs -k) || ip=$(curl -s6m8 ip.gs -k)
 }
 
 inst_cert(){
@@ -222,7 +222,7 @@ inst_pwd(){
 
 inst_site(){
     read -rp "请输入 Hysteria 2 的伪装网站地址 （去除https://） [回车世嘉maimai日本网站]：" proxysite
-    [[ -z $proxysite ]] && proxysite="maimai.sega.jp"
+    [[ -z $proxysite ]] && proxysite="www.bing.com"
     yellow "使用在 Hysteria 2 节点的伪装网站为：$proxysite"
 }
 
