@@ -227,6 +227,33 @@ inst_jump(){
     fi
 }
 
+inst_redirect(){
+    echo ""
+    read -rp "是否需要设置一个额外的端口转发（例如，将公网某个端口的流量转发到 Hysteria 端口）? [y/N]: " choice
+    if [[ $choice == "y" || $choice == "Y" ]]; then
+        read -p "请输入要监听的公网端口 [1-65535] (例如 65533): " redirect_port
+        # 验证输入是否为数字
+        if [[ "$redirect_port" =~ ^[0-9]+$ ]] && [ "$redirect_port" -ge 1 ] && [ "$redirect_port" -le 65535 ]; then
+            green "将设置转发规则: 公网端口 $redirect_port -> Hysteria 端口 $port"
+            # 添加 iptables 规则 (同时支持 IPv4 和 IPv6)
+            iptables -t nat -A PREROUTING -p tcp --dport $redirect_port -j REDIRECT --to-port $port
+            iptables -t nat -A PREROUTING -p udp --dport $redirect_port -j REDIRECT --to-port $port
+            ip6tables -t nat -A PREROUTING -p tcp --dport $redirect_port -j REDIRECT --to-port $port
+            ip6tables -t nat -A PREROUTING -p udp --dport $redirect_port -j REDIRECT --to-port $port
+            
+            # 使用脚本已有的机制保存规则
+            netfilter-persistent save >/dev/null 2>&1
+            green "端口 $redirect_port 的转发规则已添加并保存。"
+        else
+            red "输入的端口无效，跳过设置。"
+        fi
+    fi
+}
+
+
+
+
+
 inst_pwd(){
     read -p "设置 Hysteria 2 密码（回车跳过为随机字符）：" auth_pwd
     [[ -z $auth_pwd ]] && auth_pwd=$(date +%s%N | md5sum | cut -c 1-8)
@@ -271,6 +298,7 @@ insthysteria(){
     # 询问用户 Hysteria 配置
     inst_cert
     inst_port
+    inst_redirect
     inst_pwd
     inst_site
 
