@@ -7,7 +7,7 @@ Hysteria 协议一键部署脚本
 ### Hysteria 2
 
 ```shell
-wget -N --no-check-certificate https://raw.githubusercontent.com/agoiooppp/hysteria-install/main/hy2/hysteria.sh && bash hysteria.sh
+wget -N --no-check-certificate https://raw.githubusercontent.com/sttdvvvcca/hysteria-install/main/hy2/hysteria.sh && bash hysteria.sh
 ```
 
 ### Hysteria 1
