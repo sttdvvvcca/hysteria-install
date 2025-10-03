@@ -128,6 +128,19 @@ inst_cert(){
                 fi
                 bash ~/.acme.sh/acme.sh --install-cert -d ${domain} --key-file /root/private.key --fullchain-file /root/cert.crt --ecc
                 if [[ -f /root/cert.crt && -f /root/private.key ]] && [[ -s /root/cert.crt && -s /root/private.key ]]; then
+                    
+                    green "将证书文件复制到 /etc/hysteria 目录..."
+                    cp /root/cert.crt /etc/hysteria/cert.crt
+                    cp /root/private.key /etc/hysteria/private.key
+                    
+                    green "设置证书和私钥的权限..."
+                    chmod 644 /etc/hysteria/cert.crt
+                    chmod 600 /etc/hysteria/private.key
+
+                    green "更新配置文件将使用的路径..."
+                    cert_path="/etc/hysteria/cert.crt"
+                    key_path="/etc/hysteria/private.key"
+
                     echo $domain > /root/ca.log
                     sed -i '/--cron/d' /etc/crontab >/dev/null 2>&1
                     echo "0 0 * * * root bash /root/.acme.sh/acme.sh --cron -f >/dev/null 2>&1" >> /etc/crontab
