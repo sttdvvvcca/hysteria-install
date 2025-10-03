@@ -135,7 +135,7 @@ inst_cert(){
                     
                     green "设置证书和私钥的权限..."
                     chmod 644 /etc/hysteria/cert.crt
-                    chmod 600 /etc/hysteria/private.key
+                    chmod 644 /etc/hysteria/private.key
 
                     green "更新配置文件将使用的路径..."
                     cert_path="/etc/hysteria/cert.crt"
