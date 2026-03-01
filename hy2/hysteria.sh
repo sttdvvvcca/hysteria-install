@@ -64,10 +64,9 @@ inst_cert(){
         cert_path="/root/cert.crt"
         key_path="/root/private.key"
 
-        chmod -R 777 /root
-        
-        chmod +rw /root/cert.crt
-        chmod +rw /root/private.key
+        chmod 700 /root
+        chmod 644 /root/cert.crt >/dev/null 2>&1
+        chmod 600 /root/private.key >/dev/null 2>&1
 
         if [[ -f /root/cert.crt && -f /root/private.key ]] && [[ -s /root/cert.crt && -s /root/private.key ]] && [[ -f /root/ca.log ]]; then
             domain=$(cat /root/ca.log)
