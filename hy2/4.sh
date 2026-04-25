@@ -174,11 +174,11 @@ inst_cert(){
         cert_path="/etc/hysteria/cert.crt"
         key_path="/etc/hysteria/private.key"
         openssl ecparam -genkey -name prime256v1 -out /etc/hysteria/private.key
-        openssl req -new -x509 -days 36500 -key /etc/hysteria/private.key -out /etc/hysteria/cert.crt -subj "/CN=www.bing.com"
+        openssl req -new -x509 -days 36500 -key /etc/hysteria/private.key -out /etc/hysteria/cert.crt -subj "/CN=redis.io"
         chmod 777 /etc/hysteria/cert.crt
         chmod 777 /etc/hysteria/private.key
-        hy_domain="www.bing.com"
-        domain="www.bing.com"
+        hy_domain="redis.io"
+        domain="redis.io"
     fi
 }
 
@@ -261,7 +261,7 @@ inst_pwd(){
 
 inst_site(){
     read -rp "请输入 Hysteria 2 的伪装网站地址 （去除https://） [回车世嘉maimai日本网站]：" proxysite
-    [[ -z $proxysite ]] && proxysite="www.bing.com"
+    [[ -z $proxysite ]] && proxysite="redis.io"
     yellow "使用在 Hysteria 2 节点的伪装网站为：$proxysite"
 }
 
